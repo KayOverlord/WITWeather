@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import { View,useColorScheme,TouchableOpacity,StyleSheet,Text,Image,FlatList,ImageBackground } from 'react-native';
+import { View,useColorScheme,TouchableOpacity,StyleSheet,Text,Image,FlatList,ImageBackground,ActivityIndicator } from 'react-native';
 import {Colors} from "react-native/Libraries/NewAppScreen";
 import Geolocation from '@react-native-community/geolocation';
 import { API_KEY } from '../Utils/weatherdata';
@@ -24,6 +24,7 @@ const MainScreen = ({navigation}) =>{
     const [Localicon,setLocalicon ]=useState("01d");
     const [Locdata,setLocdata]=useState([]);
 
+  const [loading, setLoading] = useState(true);
 
   const getLocationFromApi = (lat,long) => {
 
@@ -50,7 +51,8 @@ const MainScreen = ({navigation}) =>{
       fetch(`https://api.openweathermap.org/data/2.5/group?id=2267057,2968815,3117735,2950159,2618425,3169070,2643743,2964574,3067696,2761369&appid=${API_KEY}&units=metric`)
       .then((response) =>response.json())
       .then((json) => {
-      setLocdata(json.list)
+      setLocdata(json.list);
+      setLoading(false)
       })
       .catch((error) => {
         console.error(error);
@@ -181,12 +183,14 @@ return (
 
 <View style={{flex:1}}>
 
+{ loading? <ActivityIndicator color = '#eb6d4d' size ={50} />:
 
     <FlatList
 
       data={Locdata}
 
       renderItem={({ item }) => {
+        
         return (
           <Animatable.View animation="fadeInLeft" easing="ease-in" duration={2000}
           style={[
@@ -237,12 +241,13 @@ return (
 
 
     )
+              
 
       }}
 
       keyExtractor={(item)=>item.id}
       contentContainerStyle={{flexGrow:1}}
-    />
+    />}
 </View>
 </ImageBackground>
   </Animatable.View>
