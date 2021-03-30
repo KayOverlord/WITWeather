@@ -28,7 +28,7 @@ const MainScreen = ({navigation}) =>{
 
   const getLocationFromApi = (lat,long) => {
 
-
+//using current location(lat,long) the first api call gets data for the current location
      fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${API_KEY}&units=metric`)
       .then((response) =>response.json())
       .then((json) => {
@@ -47,7 +47,7 @@ const MainScreen = ({navigation}) =>{
       .catch((error) => {
         console.error(error);
       });
-
+//using 10 IDs of 10 locations to get weather data of each location 
       fetch(`https://api.openweathermap.org/data/2.5/group?id=2267057,2968815,3117735,2950159,2618425,3169070,2643743,2964574,3067696,2761369&appid=${API_KEY}&units=metric`)
       .then((response) =>response.json())
       .then((json) => {
@@ -61,6 +61,7 @@ const MainScreen = ({navigation}) =>{
      
   };
       useEffect(() => {
+          //isMounted is used to only get the current position once
       let isMounted = true 
        const geolocation= Geolocation.getCurrentPosition(
             position => {
