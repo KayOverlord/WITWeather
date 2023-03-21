@@ -1,1 +1,1 @@
-export const API_KEY = 'myOpenweatherAPI_KEY';
+export const API_KEY = '';
